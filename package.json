@@ -1,0 +1,39 @@
+{
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "eject": "expo eject",
+    "clean": "expo r -c"
+  },
+  "dependencies": {
+    "date-fns": "^1.30.1",
+    "expo": "^33.0.0",
+    "expo-haptics": "~5.0.1",
+    "firebase": "^6.1.1",
+    "lodash": "^4.17.11",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-native": "^0.59.9",
+    "react-native-calendars": "^1.187.0",
+    "react-native-elements": "^1.1.0",
+    "react-native-modal": "^11.0.1",
+    "react-native-raw-bottom-sheet": "^2.0.2",
+    "react-native-web": "^0.11.4",
+    "react-navigation": "^3.11.0"
+  },
+  "devDependencies": {
+    "@types/date-fns": "^2.6.0",
+    "@types/firebase": "^3.2.1",
+    "@types/lodash": "^4.14.134",
+    "@types/react": "^16.8.19",
+    "@types/react-native": "^0.57.60",
+    "@types/react-native-elements": "^0.18.0",
+    "@types/react-navigation": "^3.0.7",
+    "babel-preset-expo": "^5.1.1",
+    "typescript": "^3.4.5"
+  },
+  "private": true
+}

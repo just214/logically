@@ -1,0 +1,128 @@
+[
+  {
+    "source": {
+      "name": "iCloud",
+      "type": "caldav",
+      "id": "71F04188-9025-45C0-8C89-E745EA8C2CBA"
+    },
+    "entityType": "event",
+    "color": "#CC73E1",
+    "id": "15AA347C-1FAE-4436-BDB0-6B164B26E591",
+    "title": "Family",
+    "allowsModifications": true,
+    "allowedAvailabilities": ["busy", "free"],
+    "type": "caldav"
+  },
+  {
+    "source": {
+      "name": "Other",
+      "type": "birthdays",
+      "id": "29726FB2-B5A7-4F0A-8051-F1EF416AB39B"
+    },
+    "entityType": "event",
+    "color": "#8295AF",
+    "id": "333DF6B9-4F98-4062-A6A2-BB80C925B352",
+    "title": "Birthdays",
+    "allowsModifications": false,
+    "allowedAvailabilities": [],
+    "type": "birthdays"
+  },
+  {
+    "source": {
+      "name": "Other",
+      "type": "birthdays",
+      "id": "29726FB2-B5A7-4F0A-8051-F1EF416AB39B"
+    },
+    "entityType": "event",
+    "color": "#8295AF",
+    "id": "BB6E0D1D-6CAC-4B87-B97C-5AA23666BF98",
+    "title": "Found in Mail",
+    "allowsModifications": false,
+    "allowedAvailabilities": [],
+    "type": "none"
+  },
+  {
+    "source": {
+      "name": "iCloud",
+      "type": "caldav",
+      "id": "71F04188-9025-45C0-8C89-E745EA8C2CBA"
+    },
+    "entityType": "event",
+    "color": "#BF57DA",
+    "id": "E713397F-F571-4964-AC9F-1A8CCDC1E978",
+    "title": "K and E",
+    "allowsModifications": true,
+    "allowedAvailabilities": ["busy", "free"],
+    "type": "caldav"
+  },
+  {
+    "source": {
+      "name": "iCloud",
+      "type": "caldav",
+      "id": "71F04188-9025-45C0-8C89-E745EA8C2CBA"
+    },
+    "entityType": "event",
+    "color": "#FF9500",
+    "id": "50891E1E-D58A-40E3-B6E1-B8C24B9403C8",
+    "title": "Birthdays",
+    "allowsModifications": true,
+    "allowedAvailabilities": ["busy", "free"],
+    "type": "caldav"
+  },
+  {
+    "source": {
+      "name": "iCloud",
+      "type": "caldav",
+      "id": "71F04188-9025-45C0-8C89-E745EA8C2CBA"
+    },
+    "entityType": "event",
+    "color": "#A2845E",
+    "id": "57EB42DA-1050-43E7-BE03-74982AB6B837",
+    "title": "My Meetups",
+    "allowsModifications": false,
+    "allowedAvailabilities": [],
+    "type": "subscribed"
+  },
+  {
+    "source": {
+      "name": "Subscribed Calendars",
+      "type": "subscribed",
+      "id": "CF140782-675F-4FD0-8D4F-3768D9E49D09"
+    },
+    "entityType": "event",
+    "color": "#CC73E1",
+    "id": "267A1E4E-1977-4AE3-89C2-5F0CAB368AC9",
+    "title": "US Holidays",
+    "allowsModifications": false,
+    "allowedAvailabilities": [],
+    "type": "subscribed"
+  },
+  {
+    "source": {
+      "name": "iCloud",
+      "type": "caldav",
+      "id": "71F04188-9025-45C0-8C89-E745EA8C2CBA"
+    },
+    "entityType": "reminder",
+    "color": "#CC73E1",
+    "id": "51CC9E2D-D303-4646-8AAC-5E27A314BFD4",
+    "title": "Family",
+    "allowsModifications": true,
+    "allowedAvailabilities": ["busy", "free"],
+    "type": "caldav"
+  },
+  {
+    "source": {
+      "name": "iCloud",
+      "type": "caldav",
+      "id": "71F04188-9025-45C0-8C89-E745EA8C2CBA"
+    },
+    "entityType": "reminder",
+    "color": "#CC73E1",
+    "id": "40EDC436-DFA4-49E1-9F19-6586D10E9585",
+    "title": "J 🖤 K",
+    "allowsModifications": true,
+    "allowedAvailabilities": ["busy", "free"],
+    "type": "caldav"
+  }
+]
