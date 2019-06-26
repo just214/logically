@@ -7,7 +7,8 @@ export default [
       top: -80,
       left: 30,
     },
-    icon: 'calendar-alt',
+    icon: 'calendar',
+    // icon: 'calendar-alt',
     color: "white",
     selectedColor: colors.lightGray
 
@@ -18,7 +19,7 @@ export default [
       left: -45,
       top: -45,
     },
-    icon: 'list-ul',
+    icon: 'tasklist',
     color: "white",
     selectedColor: colors.lightGray
 
@@ -29,7 +30,7 @@ export default [
       left: -70,
       bottom: 0,
     },
-    icon: 'cog',
+    icon: 'gear',
     color: "white",
     selectedColor:colors.lightGray
 

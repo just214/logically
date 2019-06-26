@@ -15,6 +15,11 @@ THIS WEEK
 * Filter by date range maybe?
 * Show date-based lists by month/days
 * Possible ditch expo and go react-native
+* UNDO mode for CRUD operations
+* Toasts
+* Error handling
+* Offline mode
+* Optimistic UI updates
 
 ### Auth
 * Change password in settings

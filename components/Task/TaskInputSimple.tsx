@@ -8,7 +8,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import { colors, useDimensions } from "../../utils";
-import { FontAwesome5 as FontAwesome } from "@expo/vector-icons";
+import { Octicons } from "@expo/vector-icons";
 import { Overlay, AnimatedView, Input } from "../common";
 import { ThemeContext } from "../../store";
 const { darkGray, white } = colors;
@@ -49,8 +49,8 @@ const TaskInputSimple: React.SFC<TaskInputSimpleProps> = ({
         <View style={styles.buttonGroup}>
           <TouchableOpacity>
             <View style={{ width: 80 }}>
-              <FontAwesome
-                name={"ellipsis-h"}
+              <Octicons
+                name={"ellipsis"}
                 size={25}
                 color={themeTextColor}
                 onPress={onPressAdvancedSettings}

@@ -56,10 +56,8 @@ const CalendarBS: React.FC<CalendarBSProps> = ({
       </View>
 
       <Calendar
-        // Enable horizontal scrolling, default = false
         horizontal={true}
-        // markingType="multi-dot"
-        // Enable paging on horizontal, default = false
+        markingType="multi-dot"
         pagingEnabled={true}
         onDayPress={handleSelection}
         markedDates={markedDates}

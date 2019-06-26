@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useContext } from "react";
-import RBSheet from "react-native-raw-bottom-sheet";
+import RBSheet from "./BS";
 import { View } from "react-native";
 import { colors } from "../../utils";
 import { ThemeContext } from "../../store";
@@ -28,6 +28,7 @@ const BottomSheet = React.forwardRef<any, BottomSheetProps>(
         height={400}
         onClose={onClose}
         closeOnDragDown={false}
+        closeOnPressMask={true}
         duration={300}
         customStyles={{
           container: {

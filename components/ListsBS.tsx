@@ -26,7 +26,7 @@ const ListsBottomSheet: React.FC<ListsBottomSheetProps> = ({
   };
 
   const options = [
-    "All",
+    // "All",
     "Scheduled",
     "Unscheduled",
     "Shared",

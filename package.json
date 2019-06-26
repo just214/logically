@@ -20,7 +20,6 @@
     "react-native-calendars": "^1.187.0",
     "react-native-elements": "^1.1.0",
     "react-native-modal": "^11.0.1",
-    "react-native-raw-bottom-sheet": "^2.0.2",
     "react-native-web": "^0.11.4",
     "react-navigation": "^3.11.0"
   },

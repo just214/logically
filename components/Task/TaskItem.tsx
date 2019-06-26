@@ -32,6 +32,7 @@ const Listtask: React.SFC<ListtaskProps> = ({ task, onCheck, onSelect }) => {
   };
 
   const handleSelect = () => {
+    vibrate();
     onSelect(task);
   };
   return (
@@ -56,12 +57,13 @@ const Listtask: React.SFC<ListtaskProps> = ({ task, onCheck, onSelect }) => {
           }}
         />
       </TouchableWithoutFeedback>
-
-      <TouchableOpacity style={{ height: 25, flex: 1 }} onPress={handleSelect}>
-        <AnimatedText style={{ fontSize: 18 }} numberOfLines={1}>
-          {task.title}
-        </AnimatedText>
-      </TouchableOpacity>
+      <View style={{ height: 25 }}>
+        <TouchableWithoutFeedback onPress={handleSelect}>
+          <AnimatedText style={{ fontSize: 18 }} numberOfLines={1}>
+            {task.title}
+          </AnimatedText>
+        </TouchableWithoutFeedback>
+      </View>
     </View>
   );
 };

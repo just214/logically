@@ -12,6 +12,7 @@ export interface CalendarProps {
   markedDates?: any;
   minDate?: string;
   pastScrollRange?: number;
+  markingType?: string;
 }
 
 const Calendar: React.FC<CalendarProps> = ({
@@ -20,7 +21,8 @@ const Calendar: React.FC<CalendarProps> = ({
   onDayPress,
   markedDates,
   minDate,
-  pastScrollRange
+  pastScrollRange,
+  markingType
 }) => {
   const { isDarkMode } = useContext(ThemeContext);
   const { width } = useDimensions();

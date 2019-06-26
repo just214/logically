@@ -1,3 +1,7 @@
+declare module 'console' {
+  export = typeof import("console");
+}
+
 type Access = {
   [id: string]: boolean;
 }

@@ -1,14 +1,7 @@
 import React, { useEffect, useState, createContext } from "react";
-import { AsyncStorage } from "react-native";
-import { db, auth, create, subscribe, setMerge } from "../firebase";
+import { db, auth, create, subscribe, setMerge, _delete } from "../firebase";
 
-const TasksContext = createContext({
-  completedTasks: [],
-  inProgressTasks: [],
-  toggleTaskCompletion: null,
-  createTask: null,
-  editTask: null
-});
+const TasksContext = createContext(null);
 
 const TasksProvider: React.FC = ({ children }) => {
   const [completedTasks, setCompletedTasks] = useState([]);
@@ -65,6 +58,11 @@ const TasksProvider: React.FC = ({ children }) => {
     return setMerge(taskRef, task);
   }
 
+  function deleteTask(taskId) {
+    const taskRef = db.collection("tasks").doc(taskId);
+    return _delete(taskRef);
+  }
+
   useEffect(() => {
     subscribeToInProgressTasks();
     subscribeToCompletedTasks();
@@ -77,7 +75,8 @@ const TasksProvider: React.FC = ({ children }) => {
         inProgressTasks,
         toggleTaskCompletion,
         createTask,
-        editTask
+        editTask,
+        deleteTask
       }}
     >
       {children}

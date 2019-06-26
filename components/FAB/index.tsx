@@ -10,7 +10,7 @@ import actions from "./actions";
 import { Overlay } from "../common";
 import DisplayText from "./DisplayText";
 import { VibrationContext } from "../../store";
-import { FontAwesome5, Ionicons } from "@expo/vector-icons";
+import { Octicons, Ionicons } from "@expo/vector-icons";
 import { colors } from "../../utils";
 const { darkGray, blue, white } = colors;
 
@@ -109,9 +109,9 @@ const FAB: React.FC<FABProps> = ({ onSelection, onPress }) => {
     });
   }, []);
 
-  let bounceAnimation = useRef(new Animated.Value(0)).current;
+  let bounceAnimation = useRef(new Animated.Value(0.01)).current;
   let positionAnimation = useRef(new Animated.Value(60)).current;
-  let fadeAnimation = useRef(new Animated.Value(0)).current;
+  let fadeAnimation = useRef(new Animated.Value(0.01)).current;
 
   const position = 60;
 
@@ -213,7 +213,8 @@ const FAB: React.FC<FABProps> = ({ onSelection, onPress }) => {
           shadowColor: white,
           shadowOffset: { width: 0, height: 2 },
           shadowOpacity: 0.5,
-          shadowRadius: 20
+          shadowRadius: 20,
+          elevation: 1
         }}
       />
 
@@ -233,7 +234,7 @@ const FAB: React.FC<FABProps> = ({ onSelection, onPress }) => {
                   }
                 ]}
               >
-                <FontAwesome5
+                <Octicons
                   name={action.icon}
                   size={30}
                   color={

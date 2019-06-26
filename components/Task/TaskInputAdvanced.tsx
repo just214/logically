@@ -26,6 +26,7 @@ export interface TaskInputAdvancedProps {
   isVisible: boolean;
   onSubmit: (newTask: any) => void;
   onCancel: () => void;
+  onDelete?: (id: string) => void;
   selectedTask?: any;
 }
 
@@ -33,6 +34,7 @@ const TaskInputAdvanced: React.SFC<TaskInputAdvancedProps> = ({
   isVisible,
   onSubmit,
   onCancel,
+  onDelete,
   selectedTask
 }) => {
   const [selectedOption, setSelectedOption] = useState("Text");
@@ -62,6 +64,10 @@ const TaskInputAdvanced: React.SFC<TaskInputAdvancedProps> = ({
     onCancel();
   };
 
+  const handleOnDelete = () => {
+    onDelete(selectedTask.id);
+  };
+
   return (
     <Modal
       isVisible={isVisible}
@@ -69,8 +75,8 @@ const TaskInputAdvanced: React.SFC<TaskInputAdvancedProps> = ({
       backdropOpacity={1}
       backdropColor={themeBGColor}
     >
-      <View style={{ flex: 1, paddingTop: 80 }}>
-        <AnimatedView style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
+        <AnimatedView style={{ flex: 1, paddingTop: 80 }}>
           <View
             style={{
               flexDirection: "row",
@@ -140,8 +146,20 @@ const TaskInputAdvanced: React.SFC<TaskInputAdvancedProps> = ({
             </>
           )}
         </AnimatedView>
-        <KeyboardAvoidingView>
-          <Button color="tomato" title="Cancel" onPress={handleOnCancel} />
+        <KeyboardAvoidingView
+          behavior="position"
+          contentContainerStyle={{ marginBottom: 40 }}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-evenly"
+            }}
+          >
+            <Button color="tomato" title="Delete" onPress={handleOnDelete} />
+            <Button color="#666" title="Cancel" onPress={handleOnCancel} />
+          </View>
         </KeyboardAvoidingView>
       </View>
     </Modal>

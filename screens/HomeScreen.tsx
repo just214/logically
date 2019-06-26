@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useContext, useMemo } from "react";
-import { StyleSheet, ScrollView, StatusBar, View } from "react-native";
+import React, { useState, useEffect, useContext, useMemo, useRef } from "react";
 import {
-  TasksContext,
-  CalendarsContext,
-  ThemeContext,
-  VibrationContext
-} from "../store";
+  StyleSheet,
+  ScrollView,
+  StatusBar,
+  View,
+  FlatList
+} from "react-native";
+import { TasksContext, CalendarsContext, ThemeContext } from "../store";
 import {
   formatDate,
   useFilter,
@@ -27,6 +28,7 @@ import TaskItem from "../components/Task/TaskItem";
 import EventItem from "../components/Task/EventItem";
 import ListTitle from "../components/List/ListTitle";
 import { AnimatedView } from "../components/common";
+import ScheduledTasksAndEvents from "../components/Task/ScheduledTasksAndEvents";
 
 const { width } = useDimensions();
 
@@ -41,6 +43,7 @@ const HomeScreen = ({ navigation }) => {
   });
   const [markedDates, setMarkedDates] = useState({});
   const [allTasksAndEvents, setAllTasksAndEvents] = useState([]);
+  const [showScheduledTasks, setShowScheduledTasks] = useState(false);
 
   // * CONTEXT
   const tasks = useContext(TasksContext);
@@ -53,18 +56,30 @@ const HomeScreen = ({ navigation }) => {
   // * MEMOS
   const MemoFAB = useMemo(() => FAB, []);
 
+  let x = useRef(0);
+
   // * EFFECTS
   useEffect(() => {
-    setAllTasksAndEvents([...inProgressTasks, ...completedTasks, ...events]);
+    setAllTasksAndEvents([...events, ...inProgressTasks, ...completedTasks]);
   }, [inProgressTasks, completedTasks, events]);
 
   useEffect(() => {
+    x.current = x.current + 1;
+    console.log(x.current);
     const calMarkers = createCalendarMarkers(allTasksAndEvents, filter);
     setMarkedDates(calMarkers);
   }, [allTasksAndEvents, filter]);
 
   // * CUSTOM HOOKS
   const [filteredTasks, dispatchFilter] = useFilter(allTasksAndEvents);
+
+  useEffect(() => {
+    if (filter.type === "Scheduled") {
+      setShowScheduledTasks(true);
+    } else {
+      setShowScheduledTasks(false);
+    }
+  }, [filter]);
 
   useEffect(() => {
     dispatchFilter(filter);
@@ -99,13 +114,18 @@ const HomeScreen = ({ navigation }) => {
     const scrubbedTask = pickBy(task, identity);
     // Only edit if the task was edited. Otherwise, just close the form.
     if (!isEqual(scrubbedTask, selectedTask)) {
-      console.log(task, selectedTask);
       tasks.editTask(scrubbedTask).then(() => {
         setSelectedTask({});
       });
     } else {
       setSelectedTask({});
     }
+  };
+
+  const handleDeleteTask = taskId => {
+    tasks.deleteTask(taskId).then(() => {
+      setSelectedTask({});
+    });
   };
 
   const onTaskSelect = task => {
@@ -142,20 +162,32 @@ const HomeScreen = ({ navigation }) => {
       <ScrollView style={{ width, padding: 12 }}>
         <ListTitle title={getListTitle(filter)} />
         <View style={{ paddingBottom: 150 }}>
-          {filteredTasks.map(task => {
-            if (!task.isEvent) {
-              return (
-                <TaskItem
-                  key={task.id}
-                  task={task}
-                  onCheck={handleToggleTaskCompletion}
-                  onSelect={onTaskSelect}
-                />
-              );
-            } else {
-              return <EventItem key={task.id} event={task} />;
-            }
-          })}
+          {filter.type === "Scheduled" && showScheduledTasks && (
+            <ScheduledTasksAndEvents
+              handleToggleTaskCompletion={handleToggleTaskCompletion}
+              tasksAndEvents={allTasksAndEvents}
+              onTaskSelect={onTaskSelect}
+            />
+          )}
+          {filter.type !== "Scheduled" && (
+            <FlatList
+              data={filteredTasks}
+              keyExtractor={t => t.id}
+              renderItem={({ item }) => {
+                if (item.isEvent) {
+                  return <EventItem event={item} />;
+                } else
+                  return (
+                    <TaskItem
+                      // key={task.id}
+                      task={item}
+                      onCheck={handleToggleTaskCompletion}
+                      onSelect={onTaskSelect}
+                    />
+                  );
+              }}
+            />
+          )}
         </View>
       </ScrollView>
 
@@ -177,7 +209,8 @@ const HomeScreen = ({ navigation }) => {
         selectedTask={selectedTask}
         isVisible={!!selectedTask.id}
         onSubmit={handleEditTask}
-        onCancel={toggleTaskInputAdvanced}
+        onCancel={() => setSelectedTask({})}
+        onDelete={handleDeleteTask}
       />
 
       {selectedAction === "Calendar" && (

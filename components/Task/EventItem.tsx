@@ -21,7 +21,7 @@ const EventItem: React.FC<EventItemProps> = ({ event }) => {
     >
       <Dot color={event.calendarColor} />
 
-      <Text style={{ fontSize: 12, color: blue }}>{event.startTime}</Text>
+      <Text style={{ fontSize: 12, color: "#666" }}>{event.startTime}</Text>
       <AnimatedText
         numberOfLines={1}
         style={{

@@ -13,9 +13,8 @@ const ListTitle: React.SFC<ListTitleProps> = ({ title }) => {
 const styles = StyleSheet.create({
   title: {
     paddingTop: 20,
-    paddingBottom: 28,
+    marginBottom: 18,
     paddingLeft: 10,
-    height: 60,
     fontSize: 22,
     fontWeight: "bold",
     alignSelf: "center"

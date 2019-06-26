@@ -1,6 +1,6 @@
 export default {
   // darkestGray: "#232323",
-  darkestGray: "#070707",
+  darkestGray: "#161616",
   darkGray: "#10121e",
   lightGray: "#DADADA",
   lightestGray: "#EFEFEF",
