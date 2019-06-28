@@ -1,23 +1,23 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { AnimatedText } from "../common";
+import { ThemeText } from "../common";
 
 export interface ListTitleProps {
   title: string;
 }
 
 const ListTitle: React.SFC<ListTitleProps> = ({ title }) => {
-  return <AnimatedText style={styles.title}>{title}</AnimatedText>;
+  return <ThemeText style={styles.title}>{title}</ThemeText>;
 };
 
 const styles = StyleSheet.create({
   title: {
     paddingTop: 20,
     marginBottom: 18,
-    paddingLeft: 10,
-    fontSize: 22,
+    paddingLeft: 12,
+    fontSize: 33,
     fontWeight: "bold",
-    alignSelf: "center"
+    alignSelf: "flex-start"
   }
 });
 

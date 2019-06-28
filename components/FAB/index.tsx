@@ -10,7 +10,7 @@ import actions from "./actions";
 import { Overlay } from "../common";
 import DisplayText from "./DisplayText";
 import { VibrationContext } from "../../store";
-import { Octicons, Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { colors } from "../../utils";
 const { darkGray, blue, white } = colors;
 
@@ -234,9 +234,9 @@ const FAB: React.FC<FABProps> = ({ onSelection, onPress }) => {
                   }
                 ]}
               >
-                <Octicons
+                <MaterialCommunityIcons
                   name={action.icon}
-                  size={30}
+                  size={35}
                   color={
                     selectedAction === action.title
                       ? action.selectedColor
@@ -247,8 +247,8 @@ const FAB: React.FC<FABProps> = ({ onSelection, onPress }) => {
             ))}
           <TouchableOpacity style={styles.fab}>
             <View>
-              <Ionicons
-                name={isOpen ? "md-close" : "md-add"}
+              <MaterialCommunityIcons
+                name={isOpen ? "close" : "plus"}
                 size={30}
                 color="white"
               />

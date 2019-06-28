@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, View } from "react-native";
-import { AnimatedText } from "../common";
+import { ThemeText } from "../common";
 import { Dot } from "../common";
 import { colors } from "../../utils";
 const { blue } = colors;
@@ -21,8 +21,11 @@ const EventItem: React.FC<EventItemProps> = ({ event }) => {
     >
       <Dot color={event.calendarColor} />
 
-      <Text style={{ fontSize: 12, color: "#666" }}>{event.startTime}</Text>
-      <AnimatedText
+      <Text style={{ fontSize: 12, color: "#666" }}>
+        {event.startTime !== "12:00 AM" && event.startTime}
+      </Text>
+
+      <ThemeText
         numberOfLines={1}
         style={{
           fontSize: 14,
@@ -31,7 +34,7 @@ const EventItem: React.FC<EventItemProps> = ({ event }) => {
         }}
       >
         {event.title}
-      </AnimatedText>
+      </ThemeText>
     </View>
   );
 };

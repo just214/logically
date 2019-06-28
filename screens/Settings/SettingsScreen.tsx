@@ -1,14 +1,12 @@
 import React, { useMemo, useContext } from "react";
-import { StyleSheet } from "react-native";
-
 import SettingsLayout from "../../components/Settings/SettingsLayout";
 import SettingsNavItem from "../../components/Settings/SettingsNavItem";
 import SettingsSwitchItem from "../../components/Settings/SettingsSwitchItem";
-import { ThemeContext, VibrationContext, CalendarsContext } from "../../store";
+import { ThemeContext, VibrationContext } from "../../store";
 
 const settingOptions = [
   {
-    icon: "user",
+    icon: "account",
     title: "Account",
     route: "AccountSettings",
     backTo: "Settings",
@@ -46,7 +44,7 @@ const SettingsScreen = props => {
       })}
 
       <SettingsSwitchItem
-        icon="moon"
+        icon="weather-night"
         iconColor="orange"
         title="Dark Mode"
         value={isDarkMode}
@@ -54,7 +52,7 @@ const SettingsScreen = props => {
       />
 
       <SettingsSwitchItem
-        icon="500px"
+        icon="vibrate"
         iconColor="steelblue"
         title="Vibration"
         value={isVibrationMode}
@@ -63,7 +61,5 @@ const SettingsScreen = props => {
     </Layout>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default SettingsScreen;

@@ -5,7 +5,6 @@ import TaskItem from "./TaskItem";
 import EventItem from "./EventItem";
 import { formatPrettyDate, colors } from "../../utils";
 import { format } from "date-fns";
-import { AnimatedText } from "../common";
 import { ThemeContext } from "../../store";
 
 const { blueAlt } = colors;
@@ -63,7 +62,7 @@ const ScheduledTasksAndEvents: React.SFC<ScheduledTasksAndEventsProps> = ({
                     style={{
                       color: blueAlt,
                       fontWeight: "bold",
-                      fontSize: 18
+                      fontSize: 22
                     }}
                   >
                     {format(key, "ddd")}
@@ -73,7 +72,7 @@ const ScheduledTasksAndEvents: React.SFC<ScheduledTasksAndEventsProps> = ({
                   <Text
                     style={{
                       fontSize: 22,
-                      paddingHorizontal: 12,
+                      paddingHorizontal: 6,
                       paddingTop: 0,
                       color: "#999",
                       fontWeight: "bold"
@@ -112,11 +111,16 @@ const ScheduledTasksAndEvents: React.SFC<ScheduledTasksAndEventsProps> = ({
   );
   return (
     <View>
-      <AnimatedText
-        style={{ alignSelf: "center", fontSize: 18, paddingVertical: 20 }}
+      <Text
+        style={{
+          fontSize: 18,
+          paddingLeft: 12,
+          paddingVertical: 20,
+          color: blueAlt
+        }}
       >
         Today is {formatPrettyDate(new Date())}
-      </AnimatedText>
+      </Text>
       {renderList}
     </View>
   );

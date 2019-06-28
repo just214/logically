@@ -36,6 +36,14 @@ OTHER TASKS
 * Come up with a logo
 * Come up with a pricing model
 
+## Calendar Events
+* Should all calendar events be fetched initially, then just dynamically displayed based on the
+  whether the user selected to show events and selected their specific calendars to show?
+
+  OR
+
+* Should the calendar events be fetched on demand as the user toggles between showing and hiding calendar events?
+
 
 
 

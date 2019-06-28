@@ -1,4 +1,5 @@
 export { default as AnimatedText} from './AnimatedText';
+export { default as ThemeText} from './ThemeText';
 export { default as AnimatedView} from './AnimatedView';
 export { default as CheckListItem} from './CheckListItem';
 export { default as Dot} from './Dot';

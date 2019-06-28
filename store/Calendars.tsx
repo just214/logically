@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useRef } from "react";
 import { AsyncStorage } from "react-native";
 import * as Permissions from "expo-permissions";
 import * as Calendar from "expo-calendar";
@@ -7,11 +7,25 @@ import { format } from "date-fns";
 import unionBy from "lodash/unionBy";
 import { addDays } from "date-fns";
 
-const CalendarsContext = createContext(null);
+/*
+ * AsyncStorage is used to save the user's preference for calendar events:
+ * @selectedCalendarIds
+ * @showCalendarEvents
+ */
 
-export interface CalendarsProviderProps {}
+interface CalendarsContextObject {
+  events: any;
+  showEvents: boolean;
+  calendars: any[];
+  toggleShowEvents: () => void;
+  toggleSelectedCalendarId: (calendarId: string) => void;
+  selectedCalendarIds: boolean;
+}
 
-function getDates(startDate, endDate) {
+// * THE CONTEXT OBJECT
+const CalendarsContext = createContext<CalendarsContextObject | null>(null);
+
+function getDatesBetween(startDate, endDate) {
   var dateArray = [];
   var current = new Date(startDate);
   var end = new Date(endDate);
@@ -22,77 +36,95 @@ function getDates(startDate, endDate) {
   return dateArray;
 }
 
+async function handleCalendarPermissions() {
+  const { status } = await Permissions.getAsync(Permissions.CALENDAR);
+  if (status === "granted") {
+    return Promise.resolve();
+  } else {
+    return Permissions.askAsync(Permissions.CALENDAR);
+  }
+}
+
+async function fetchEventsAsync(calendarIds, calendarsArray): Promise<any[]> {
+  // Need startDate to start at the very beginning of the day so that some events are not overlooked
+  // if it is currently later in the day.
+
+  const start_date = new Date();
+  start_date.setHours(0, 0, 0, 0);
+  const end_date = addDays(Date.now(), 100);
+
+  const eventsArray = await Calendar.getEventsAsync(
+    calendarIds,
+    start_date,
+    end_date
+  ).then(events => {
+    let newEvents = [];
+    let updatedEvents = [];
+    events.forEach(event => {
+      const { startDate, endDate } = event;
+      const isSameDate = startDate === endDate;
+
+      if (!isSameDate && endDate) {
+        const dateArray = getDatesBetween(startDate, endDate);
+        dateArray.forEach(date => {
+          newEvents.push({ ...event, dueDate: date });
+        });
+      } else {
+        newEvents.push({ ...event, dueDate: startDate });
+      }
+      updatedEvents = newEvents.map(event => {
+        const parentCalendar = calendarsArray.find(
+          cal => cal.id === event.calendarId
+        );
+        return {
+          ...event,
+          isEvent: true,
+          calendarTitle: parentCalendar.title,
+          calendarColor: parentCalendar.color,
+          dueDate: formatDate(event.startDate),
+          endDate: formatDate(event.endDate),
+          isCompleted: false,
+          startTime: format(new Date(event.originalStartDate), "hh:mm A")
+        };
+      });
+    });
+    return updatedEvents;
+  });
+  return eventsArray;
+}
+
+async function fetchCalendarsAsync() {
+  const calendarResults = await Calendar.getCalendarsAsync();
+  return calendarResults;
+}
+
+export interface CalendarsProviderProps {}
+
 const CalendarsProvider: React.FC<CalendarsProviderProps> = ({ children }) => {
-  const [showEvents, setShowEvents] = useState(false);
-  const [calendars, setCalendars] = useState([]);
+  const [showEvents, setShowEvents] = useState<boolean>(false);
+  const [calendars, setCalendars] = useState<any>([]);
   const [selectedCalendarIds, setSelectedCalendarIds] = useState(
     calendars.map(c => c.id)
   );
   const [events, setEvents] = useState([]);
 
+  // * If the user chooses to show events, handle permissions then fetch the calendars and events.
   useEffect(() => {
-    const handlePermissions = async () => {
-      const permission = await Permissions.askAsync(Permissions.CALENDAR);
-    };
+    async function handleFetchCalendarsAndEvents() {
+      await handleCalendarPermissions();
+      const calendarsArray = await fetchCalendarsAsync();
+      setCalendars(calendarsArray);
+      const eventsArray = await fetchEventsAsync(
+        selectedCalendarIds,
+        calendarsArray
+      );
+      const filteredForDupes = unionBy(eventsArray, "id");
+      setEvents(filteredForDupes);
+    }
     if (showEvents) {
-      handlePermissions().then(() => {
-        fetchCalendarEvents();
-      });
+      handleFetchCalendarsAndEvents();
     }
   }, [showEvents]);
-
-  // TODO Handle Permissions
-  async function handleShowCalendarEvents() {
-    const permissionStatus = await Permissions.getAsync(Permissions.CALENDAR);
-    const permission = await Permissions.askAsync(Permissions.CALENDAR);
-  }
-
-  let updatedEvents = [];
-
-  function fetchCalendarEvents() {
-    Calendar.getCalendarsAsync().then((calendarsArray: any) => {
-      const filteredForDupes = unionBy(calendarsArray, "id");
-      setCalendars(filteredForDupes);
-
-      const ids = selectedCalendarIds;
-      if (!ids.length) return;
-      Calendar.getEventsAsync(ids, new Date(), addDays(Date.now(), 100)).then(
-        events => {
-          let newEvents = [];
-          events.forEach(event => {
-            const { startDate, endDate } = event;
-            const isSameDate = startDate === endDate;
-
-            if (!isSameDate && endDate) {
-              const dateArray = getDates(startDate, endDate);
-              dateArray.forEach(date => {
-                newEvents.push({ ...event, dueDate: date });
-              });
-            } else {
-              newEvents.push({ ...event, dueDate: startDate });
-            }
-            updatedEvents = newEvents.map(event => {
-              const parentCalendar = calendarsArray.find(
-                cal => cal.id === event.calendarId
-              );
-              return {
-                ...event,
-                isEvent: true,
-                calendarTitle: parentCalendar.title,
-                calendarColor: parentCalendar.color,
-                dueDate: formatDate(event.startDate),
-                endDate: formatDate(event.endDate),
-                isCompleted: false,
-                startTime: format(new Date(event.originalStartDate), "hh:mm A")
-              };
-            });
-          });
-          const filteredForDupes = unionBy(updatedEvents, "id");
-          setEvents(filteredForDupes);
-        }
-      );
-    });
-  }
 
   useEffect(() => {
     AsyncStorage.getItem("@selectedCalendarIds").then(value => {
@@ -123,17 +155,12 @@ const CalendarsProvider: React.FC<CalendarsProviderProps> = ({ children }) => {
     AsyncStorage.setItem("@showCalendarEvents", JSON.stringify(showEvents));
   }, [showEvents]);
 
-  useEffect(() => {
-    if (showEvents) {
-    } else {
-      setEvents([]);
-    }
-  }, [showEvents, selectedCalendarIds]);
-
   return (
     <CalendarsContext.Provider
       value={{
-        events,
+        events: showEvents
+          ? events.filter(ev => selectedCalendarIds.includes(ev.calendarId))
+          : [],
         showEvents,
         calendars,
         toggleShowEvents,

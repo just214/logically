@@ -7,7 +7,7 @@ import {
   KeyboardAvoidingView
 } from "react-native";
 import { colors, useDimensions, formatDate } from "../../utils";
-import { FontAwesome5 as FontAwesome } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Modal from "react-native-modal";
 import { Calendar, Input, AnimatedView } from "../common";
 import { ThemeContext } from "../../store";
@@ -15,11 +15,11 @@ const { darkGray, blueAlt, white } = colors;
 const { width } = useDimensions();
 
 const options = [
-  { name: "Text", icon: "stream" },
-  { name: "Date", icon: "calendar-alt" },
-  { name: "Time", icon: "clock" },
-  { name: "Repeat", icon: "redo" },
-  { name: "Users", icon: "users" }
+  { name: "Text", icon: "text-shadow" },
+  { name: "Date", icon: "calendar" },
+  { name: "Time", icon: "alarm" },
+  { name: "Repeat", icon: "repeat" },
+  { name: "Users", icon: "account-multiple-plus-outline" }
 ];
 
 export interface TaskInputAdvancedProps {
@@ -28,6 +28,8 @@ export interface TaskInputAdvancedProps {
   onCancel: () => void;
   onDelete?: (id: string) => void;
   selectedTask?: any;
+  title?: string;
+  setTitle?: (value: string) => void;
 }
 
 const TaskInputAdvanced: React.SFC<TaskInputAdvancedProps> = ({
@@ -35,16 +37,18 @@ const TaskInputAdvanced: React.SFC<TaskInputAdvancedProps> = ({
   onSubmit,
   onCancel,
   onDelete,
-  selectedTask
+  selectedTask,
+  title,
+  setTitle
 }) => {
   const [selectedOption, setSelectedOption] = useState("Text");
   const [dueDate, setDueDate] = useState("");
-  const [title, setTitle] = useState("");
+  const [existingTitle, setExistingTitle] = useState("");
   const [notes, setNotes] = useState("");
 
   useEffect(() => {
     if (selectedTask && selectedTask.id) {
-      setTitle(selectedTask.title);
+      setExistingTitle(selectedTask.title);
       setNotes(selectedTask.notes);
       setDueDate(selectedTask.dueDate);
     }
@@ -94,9 +98,9 @@ const TaskInputAdvanced: React.SFC<TaskInputAdvancedProps> = ({
                   hitSlop={{ top: 15, right: 15, bottom: 15, left: 15 }}
                 >
                   <View style={{ width: 50 }}>
-                    <FontAwesome
+                    <MaterialCommunityIcons
                       name={option.icon}
-                      size={22}
+                      size={30}
                       color={
                         selectedOption === option.name ? blueAlt : "#DADADA"
                       }
@@ -108,7 +112,7 @@ const TaskInputAdvanced: React.SFC<TaskInputAdvancedProps> = ({
             <Button title="Save" onPress={handleSubmit} />
           </View>
           {selectedOption === "Date" && (
-            <View style={{ alignItems: "center" }}>
+            <View style={{ alignItems: "center", margin: -15 }}>
               <Calendar
                 minDate={formatDate(new Date())}
                 pastScrollRange={0}
@@ -130,8 +134,10 @@ const TaskInputAdvanced: React.SFC<TaskInputAdvancedProps> = ({
                 placeholder="New Task"
                 autoFocus
                 style={styles.largeInput}
-                onChangeText={text => setTitle(text)}
-                value={title}
+                onChangeText={text =>
+                  setTitle ? setTitle(text) : setExistingTitle(text)
+                }
+                value={title || existingTitle}
                 onSubmitEditing={handleSubmit}
                 returnKeyType="done"
               />

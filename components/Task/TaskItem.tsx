@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback
 } from "react-native";
-import { AnimatedText } from "../common";
+import { ThemeText } from "../common";
 import { CheckBox } from "react-native-elements";
 import { colors } from "../../utils";
 import { VibrationContext } from "../../store";
@@ -59,9 +59,9 @@ const Listtask: React.SFC<ListtaskProps> = ({ task, onCheck, onSelect }) => {
       </TouchableWithoutFeedback>
       <View style={{ height: 25 }}>
         <TouchableWithoutFeedback onPress={handleSelect}>
-          <AnimatedText style={{ fontSize: 18 }} numberOfLines={1}>
+          <ThemeText style={{ fontSize: 18 }} numberOfLines={1}>
             {task.title}
-          </AnimatedText>
+          </ThemeText>
         </TouchableWithoutFeedback>
       </View>
     </View>

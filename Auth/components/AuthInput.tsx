@@ -7,7 +7,7 @@ import {
   Keyboard,
   GestureResponderEvent
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export interface AuthInputProps {
   placeholder: string;
@@ -23,8 +23,8 @@ const AuthInput: React.FC<AuthInputProps> = props => {
   const isPassword = type === "password";
   return (
     <View style={styles.textInput}>
-      <Ionicons
-        name={isPassword ? "ios-key" : "md-mail"}
+      <MaterialCommunityIcons
+        name={isPassword ? "key-variant" : "email"}
         size={30}
         color={valid ? "#66BB6A" : "#d1d1d1"}
       />

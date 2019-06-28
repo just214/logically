@@ -8,10 +8,10 @@ import {
   TouchableOpacity
 } from "react-native";
 import { colors, useDimensions } from "../../utils";
-import { Octicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Overlay, AnimatedView, Input } from "../common";
 import { ThemeContext } from "../../store";
-const { darkGray, white } = colors;
+const { white } = colors;
 
 const { width } = useDimensions();
 
@@ -19,18 +19,18 @@ export interface TaskInputSimpleProps {
   onSubmit: (arg: any) => void;
   onCancel: () => void;
   onPressAdvancedSettings: () => void;
+  title: string;
+  setTitle: (value: string) => void;
 }
 
 const TaskInputSimple: React.SFC<TaskInputSimpleProps> = ({
   onCancel,
   onSubmit,
-  onPressAdvancedSettings
+  onPressAdvancedSettings,
+  title,
+  setTitle
 }) => {
   const { themeTextColor } = useContext(ThemeContext);
-
-  // const themeText = isDarkMode ?
-
-  const [title, setTitle] = useState("");
 
   const handleSave = () => {
     onSubmit({ title });
@@ -49,10 +49,10 @@ const TaskInputSimple: React.SFC<TaskInputSimpleProps> = ({
         <View style={styles.buttonGroup}>
           <TouchableOpacity>
             <View style={{ width: 80 }}>
-              <Octicons
-                name={"ellipsis"}
-                size={25}
-                color={themeTextColor}
+              <MaterialCommunityIcons
+                name="dots-horizontal-circle-outline"
+                size={30}
+                color="#666"
                 onPress={onPressAdvancedSettings}
               />
             </View>

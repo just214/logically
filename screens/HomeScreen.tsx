@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import { TasksContext, CalendarsContext, ThemeContext } from "../store";
 import {
-  formatDate,
   useFilter,
   createCalendarMarkers,
   getListTitle,
@@ -38,9 +37,11 @@ const HomeScreen = ({ navigation }) => {
   const [showTaskInputAdvanced, setShowTaskInputAdvanced] = useState(false);
   const [selectedAction, setSelectedAction] = useState("");
   const [filter, setFilter] = useState({
-    type: "Date",
-    value: formatDate(new Date())
+    type: "Scheduled",
+    value: ""
   });
+  // Share the title between simple and advanced view
+  const [title, setTitle] = useState("");
   const [markedDates, setMarkedDates] = useState({});
   const [allTasksAndEvents, setAllTasksAndEvents] = useState([]);
   const [showScheduledTasks, setShowScheduledTasks] = useState(false);
@@ -65,7 +66,7 @@ const HomeScreen = ({ navigation }) => {
 
   useEffect(() => {
     x.current = x.current + 1;
-    console.log(x.current);
+    // console.log(x.current);
     const calMarkers = createCalendarMarkers(allTasksAndEvents, filter);
     setMarkedDates(calMarkers);
   }, [allTasksAndEvents, filter]);
@@ -100,6 +101,7 @@ const HomeScreen = ({ navigation }) => {
     }
     setShowTaskInputSimple(false);
     setShowTaskInputAdvanced(false);
+    setTitle("");
   };
 
   const handleToggleTaskCompletion = task => {
@@ -133,11 +135,17 @@ const HomeScreen = ({ navigation }) => {
   };
 
   const toggleTaskInputSimple = () => {
+    if (showTaskInputSimple) {
+      setTitle("");
+    }
     handleClearMenuAction();
     setShowTaskInputSimple(value => !value);
   };
 
   const toggleTaskInputAdvanced = () => {
+    if (showTaskInputAdvanced) {
+      setTitle("");
+    }
     setShowTaskInputAdvanced(value => !value);
     setShowTaskInputSimple(false);
   };
@@ -191,27 +199,38 @@ const HomeScreen = ({ navigation }) => {
         </View>
       </ScrollView>
 
+      {/* These are for creating a new task */}
+
       {showTaskInputSimple && (
         <TaskInputSimple
           onSubmit={handleCreateTask}
           onCancel={toggleTaskInputSimple}
           onPressAdvancedSettings={toggleTaskInputAdvanced}
+          title={title}
+          setTitle={setTitle}
         />
       )}
 
-      <TaskInputAdvanced
-        isVisible={showTaskInputAdvanced}
-        onSubmit={handleCreateTask}
-        onCancel={toggleTaskInputAdvanced}
-      />
+      {showTaskInputAdvanced && (
+        <TaskInputAdvanced
+          isVisible={showTaskInputAdvanced}
+          onSubmit={handleCreateTask}
+          onCancel={toggleTaskInputAdvanced}
+          title={title}
+          setTitle={setTitle}
+        />
+      )}
 
-      <TaskInputAdvanced
-        selectedTask={selectedTask}
-        isVisible={!!selectedTask.id}
-        onSubmit={handleEditTask}
-        onCancel={() => setSelectedTask({})}
-        onDelete={handleDeleteTask}
-      />
+      {/* This one is for editing */}
+      {!!selectedTask.id && (
+        <TaskInputAdvanced
+          selectedTask={selectedTask}
+          isVisible={!!selectedTask.id}
+          onSubmit={handleEditTask}
+          onCancel={() => setSelectedTask({})}
+          onDelete={handleDeleteTask}
+        />
+      )}
 
       {selectedAction === "Calendar" && (
         <CalendarBS

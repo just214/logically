@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { TouchableOpacity, Text, StyleSheet, Animated } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useTheme, colors } from "../../utils";
 import { VibrationContext, ThemeContext } from "../../store";
 
@@ -44,7 +44,7 @@ const CheckListItem: React.SFC<CheckListItemProps> = ({
         {title}
       </Animated.Text>
       {isSelected && (
-        <Ionicons name={"md-checkmark"} size={20} color={"#00adf5"} />
+        <MaterialCommunityIcons name={"check"} size={20} color={"#00adf5"} />
       )}
     </TouchableOpacity>
   );

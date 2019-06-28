@@ -7,7 +7,7 @@ export default [
       top: -80,
       left: 30,
     },
-    icon: 'calendar',
+    icon: 'calendar-star',
     // icon: 'calendar-alt',
     color: "white",
     selectedColor: colors.lightGray
@@ -19,7 +19,7 @@ export default [
       left: -45,
       top: -45,
     },
-    icon: 'tasklist',
+    icon: 'format-list-bulleted-type',
     color: "white",
     selectedColor: colors.lightGray
 
@@ -28,9 +28,9 @@ export default [
     title: 'Settings',
     style: {
       left: -70,
-      bottom: 0,
+      bottom: -5,
     },
-    icon: 'gear',
+    icon: 'settings',
     color: "white",
     selectedColor:colors.lightGray
 

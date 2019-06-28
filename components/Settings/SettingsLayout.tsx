@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { View, TouchableOpacity, StyleSheet, Button } from "react-native";
 import { AnimatedView, AnimatedText } from "../../components/common";
-import { Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { withNavigation } from "react-navigation";
 import { colors } from "../../utils";
 import { VibrationContext } from "../../store";
@@ -36,17 +36,22 @@ const SettingsLayout: React.FC<SettingsLayoutProps> = ({
     <View style={styles.container}>
       <AnimatedView style={styles.innerContainer}>
         <View style={styles.topRow}>
-          <View>
+          <View style={{ justifyContent: "center" }}>
             {backTo && (
               <TouchableOpacity
                 style={{ flexDirection: "row", alignItems: "center" }}
                 onPress={handleGoBack}
               >
-                <Ionicons name="ios-arrow-back" size={20} color={lightGray} />
+                <MaterialCommunityIcons
+                  name="chevron-left"
+                  size={25}
+                  color={lightGray}
+                />
                 <Button title={backTo} onPress={handleGoBack} />
               </TouchableOpacity>
             )}
           </View>
+
           <Button title="Done" onPress={handleDone} />
         </View>
         <View>

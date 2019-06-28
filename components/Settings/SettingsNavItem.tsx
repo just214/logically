@@ -5,7 +5,7 @@ import {
   StyleSheet,
   GestureResponderEvent
 } from "react-native";
-import { FontAwesome5, Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AnimatedText } from "../common";
 import { colors } from "../../utils";
 const { lightGray } = colors;
@@ -32,12 +32,12 @@ const SettingsItem: React.FC<SettingsItemProps> = ({
   };
   return (
     <TouchableOpacity onPress={handleOnPress} style={styles.wrapper}>
-      <FontAwesome5 name={icon} color={iconColor} size={18} />
+      <MaterialCommunityIcons name={icon} color={iconColor} size={25} />
       <AnimatedText style={styles.title}>{title}</AnimatedText>
       <View style={{ position: "absolute", right: 0 }}>
-        <Ionicons
-          name="ios-arrow-forward"
-          size={25}
+        <MaterialCommunityIcons
+          name="chevron-right"
+          size={30}
           color={lightGray}
           style={{ alignSelf: "flex-end" }}
         />

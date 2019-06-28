@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Switch, StyleSheet, GestureResponderEvent } from "react-native";
-import { FontAwesome5, Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AnimatedText } from "../common";
 
 export interface SettingsItemProps {
@@ -23,7 +23,7 @@ const SettingsItem: React.FC<SettingsItemProps> = ({
   };
   return (
     <View style={styles.wrapper}>
-      <FontAwesome5 name={icon} color={iconColor} size={18} />
+      <MaterialCommunityIcons name={icon} color={iconColor} size={25} />
       <AnimatedText style={styles.title}>{title}</AnimatedText>
       <View style={{ position: "absolute", right: 0 }}>
         <Switch value={value} onValueChange={handleSwitch} />
