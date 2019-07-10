@@ -18,7 +18,7 @@ export interface ListtaskProps {
   onSelect: (task) => void;
 }
 
-const Listtask: React.SFC<ListtaskProps> = ({ task, onCheck, onSelect }) => {
+const Listtask: React.FC<ListtaskProps> = ({ task, onCheck, onSelect }) => {
   const [isChecked, setIsChecked] = useState(task.isCompleted);
   const { vibrate } = useContext(VibrationContext);
 
@@ -59,7 +59,7 @@ const Listtask: React.SFC<ListtaskProps> = ({ task, onCheck, onSelect }) => {
       </TouchableWithoutFeedback>
       <View style={{ height: 25 }}>
         <TouchableWithoutFeedback onPress={handleSelect}>
-          <ThemeText style={{ fontSize: 18 }} numberOfLines={1}>
+          <ThemeText flex={1} style={{ fontSize: 18 }} numberOfLines={1}>
             {task.title}
           </ThemeText>
         </TouchableWithoutFeedback>

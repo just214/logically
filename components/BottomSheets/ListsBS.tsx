@@ -1,10 +1,8 @@
 import React, { useRef, useEffect, useContext } from "react";
-import { StyleSheet, View } from "react-native";
-import { BottomSheet, AnimatedView } from "./common";
-import { CheckListItem } from "../components/common";
-import { ThemeContext } from "../store";
-import { colors } from "../utils";
-const { darkestGray, white } = colors;
+import { StyleSheet } from "react-native";
+import { BottomSheet, ThemeView } from "../common";
+import { CheckListItem } from "../common";
+import { ThemeContext } from "../../store";
 export interface ListsBottomSheetProps {
   onClose: () => void;
   onSelection: (selection: string) => void;
@@ -37,7 +35,7 @@ const ListsBottomSheet: React.FC<ListsBottomSheetProps> = ({
   return (
     <>
       <BottomSheet ref={ref} onClose={onClose}>
-        <AnimatedView style={styles.buttonGroup}>
+        <ThemeView style={styles.buttonGroup}>
           {options.map(option => {
             const isSelected = selected === option;
             return (
@@ -49,7 +47,7 @@ const ListsBottomSheet: React.FC<ListsBottomSheetProps> = ({
               />
             );
           })}
-        </AnimatedView>
+        </ThemeView>
       </BottomSheet>
     </>
   );

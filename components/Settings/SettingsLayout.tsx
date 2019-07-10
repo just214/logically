@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { View, TouchableOpacity, StyleSheet, Button } from "react-native";
-import { AnimatedView, AnimatedText } from "../../components/common";
+import { ThemeView, ThemeText } from "../../components/common";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { withNavigation } from "react-navigation";
 import { colors } from "../../utils";
@@ -34,7 +34,7 @@ const SettingsLayout: React.FC<SettingsLayoutProps> = ({
   };
   return (
     <View style={styles.container}>
-      <AnimatedView style={styles.innerContainer}>
+      <ThemeView animate style={styles.innerContainer}>
         <View style={styles.topRow}>
           <View style={{ justifyContent: "center" }}>
             {backTo && (
@@ -56,7 +56,7 @@ const SettingsLayout: React.FC<SettingsLayoutProps> = ({
         </View>
         <View>
           {title && (
-            <AnimatedText
+            <ThemeText
               style={{
                 position: "relative",
                 top: -20,
@@ -66,12 +66,12 @@ const SettingsLayout: React.FC<SettingsLayoutProps> = ({
               }}
             >
               {title}
-            </AnimatedText>
+            </ThemeText>
           )}
         </View>
 
         <View style={{ padding: 12, paddingTop: 20 }}>{children}</View>
-      </AnimatedView>
+      </ThemeView>
     </View>
   );
 };

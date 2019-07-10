@@ -4,7 +4,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useTheme, colors } from "../../utils";
 import { VibrationContext, ThemeContext } from "../../store";
 
-const { darkGray, lightGray } = colors;
+const { darkBlueGray, lightGray } = colors;
 
 export interface CheckListItemProps {
   onSelection: () => void;
@@ -17,7 +17,7 @@ const CheckListItem: React.SFC<CheckListItemProps> = ({
   isSelected,
   title
 }) => {
-  const color = useTheme({ light: darkGray, dark: lightGray });
+  const color = useTheme({ light: darkBlueGray, dark: lightGray });
   const { vibrate } = useContext(VibrationContext);
   const { isDarkMode } = useContext(ThemeContext);
 

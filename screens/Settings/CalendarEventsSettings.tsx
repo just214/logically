@@ -3,7 +3,7 @@ import { View, ScrollView, Text, StyleSheet } from "react-native";
 import SettingsSwitchItem from "../../components/Settings/SettingsSwitchItem";
 import { CalendarsContext } from "../../store";
 import SettingsLayout from "../../components/Settings/SettingsLayout";
-import { CheckListItem, Dot } from "../../components/common";
+import { CheckListItem, Dot, ThemeText } from "../../components/common";
 import { useFade } from "../../utils";
 
 const CalendarEventsSettings = props => {
@@ -43,21 +43,29 @@ const CalendarEventsSettings = props => {
         />
         {showEvents && (
           <>
+            <ThemeText
+              size="lg"
+              bold
+              style={{ marginHorizontal: 12, marginVertical: 20 }}
+            >
+              Select calendars
+            </ThemeText>
             {Object.keys(sortedCalendars).map(key => {
               return (
                 <View key={key}>
-                  <Text
+                  <ThemeText
+                    size="sm"
+                    bold
+                    lightColor="#999999"
+                    darkColor="#999999"
                     style={{
-                      fontSize: 14,
-                      fontWeight: "bold",
-                      padding: 12,
-                      color: "#999999"
+                      padding: 12
                     }}
                   >
                     {key === "caldav"
                       ? "iCloud"
                       : key.charAt(0).toUpperCase() + key.slice(1)}
-                  </Text>
+                  </ThemeText>
                   <View style={{ paddingBottom: 15 }}>
                     {sortedCalendars[key].map(cal => (
                       <View
@@ -76,9 +84,9 @@ const CalendarEventsSettings = props => {
                           onSelection={() => {
                             toggleSelectedCalendarId(cal.id);
                           }}
-                          isSelected={selectedCalendarIds.find(
-                            id => id === cal.id
-                          )}
+                          isSelected={
+                            !!selectedCalendarIds.find(id => id === cal.id)
+                          }
                         />
                       </View>
                     ))}

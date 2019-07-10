@@ -19,22 +19,22 @@ import identity from "lodash/identity";
 
 // * Components
 import FAB from "../components/FAB";
-import TaskInputSimple from "../components/Task/TaskInputSimple";
-import TaskInputAdvanced from "../components/Task/TaskInputAdvanced";
-import CalendarBS from "../components/CalendarBS";
-import ListsBS from "../components/ListsBS";
+import BasicTaskForm from "../components/BasicForm/BasicTaskForm";
+import AdvancedTaskForm from "../components/AdvancedForm/AdvancedTaskForm";
+import CalendarBS from "../components/BottomSheets/CalendarBS";
+import ListsBS from "../components/BottomSheets/ListsBS";
 import TaskItem from "../components/Task/TaskItem";
 import EventItem from "../components/Task/EventItem";
 import ListTitle from "../components/List/ListTitle";
-import { AnimatedView } from "../components/common";
+import { ThemeView } from "../components/common";
 import ScheduledTasksAndEvents from "../components/Task/ScheduledTasksAndEvents";
 
 const { width } = useDimensions();
 
 const HomeScreen = ({ navigation }) => {
   // * STATE
-  const [showTaskInputSimple, setShowTaskInputSimple] = useState(false);
-  const [showTaskInputAdvanced, setShowTaskInputAdvanced] = useState(false);
+  const [showBasicTaskForm, setShowBasicTaskForm] = useState(false);
+  const [showAdvancedTaskForm, setShowAdvancedTaskForm] = useState(false);
   const [selectedAction, setSelectedAction] = useState("");
   const [filter, setFilter] = useState({
     type: "Scheduled",
@@ -99,8 +99,8 @@ const HomeScreen = ({ navigation }) => {
     if (newTask.title) {
       tasks.createTask(scrubbedTask);
     }
-    setShowTaskInputSimple(false);
-    setShowTaskInputAdvanced(false);
+    setShowBasicTaskForm(false);
+    setShowAdvancedTaskForm(false);
     setTitle("");
   };
 
@@ -134,20 +134,20 @@ const HomeScreen = ({ navigation }) => {
     setSelectedTask(task);
   };
 
-  const toggleTaskInputSimple = () => {
-    if (showTaskInputSimple) {
+  const toggleBasicTaskForm = () => {
+    if (showBasicTaskForm) {
       setTitle("");
     }
     handleClearMenuAction();
-    setShowTaskInputSimple(value => !value);
+    setShowBasicTaskForm(value => !value);
   };
 
-  const toggleTaskInputAdvanced = () => {
-    if (showTaskInputAdvanced) {
+  const toggleAdvancedTaskForm = () => {
+    if (showAdvancedTaskForm) {
       setTitle("");
     }
-    setShowTaskInputAdvanced(value => !value);
-    setShowTaskInputSimple(false);
+    setShowAdvancedTaskForm(value => !value);
+    setShowBasicTaskForm(false);
   };
 
   const handleDateSelection = date => {
@@ -164,8 +164,12 @@ const HomeScreen = ({ navigation }) => {
 
   // * RENDER
 
+  if (!inProgressTasks.length && !completedTasks.length) {
+    return null;
+  }
+
   return (
-    <AnimatedView bg style={styles.container}>
+    <ThemeView altBG style={styles.container}>
       <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
       <ScrollView style={{ width, padding: 12 }}>
         <ListTitle title={getListTitle(filter)} />
@@ -201,21 +205,21 @@ const HomeScreen = ({ navigation }) => {
 
       {/* These are for creating a new task */}
 
-      {showTaskInputSimple && (
-        <TaskInputSimple
+      {showBasicTaskForm && (
+        <BasicTaskForm
           onSubmit={handleCreateTask}
-          onCancel={toggleTaskInputSimple}
-          onPressAdvancedSettings={toggleTaskInputAdvanced}
+          onCancel={toggleBasicTaskForm}
+          onPressAdvancedSettings={toggleAdvancedTaskForm}
           title={title}
           setTitle={setTitle}
         />
       )}
 
-      {showTaskInputAdvanced && (
-        <TaskInputAdvanced
-          isVisible={showTaskInputAdvanced}
+      {showAdvancedTaskForm && (
+        <AdvancedTaskForm
+          isVisible={showAdvancedTaskForm}
           onSubmit={handleCreateTask}
-          onCancel={toggleTaskInputAdvanced}
+          onCancel={toggleAdvancedTaskForm}
           title={title}
           setTitle={setTitle}
         />
@@ -223,7 +227,7 @@ const HomeScreen = ({ navigation }) => {
 
       {/* This one is for editing */}
       {!!selectedTask.id && (
-        <TaskInputAdvanced
+        <AdvancedTaskForm
           selectedTask={selectedTask}
           isVisible={!!selectedTask.id}
           onSubmit={handleEditTask}
@@ -250,10 +254,10 @@ const HomeScreen = ({ navigation }) => {
       )}
 
       <MemoFAB
-        onPress={toggleTaskInputSimple}
+        onPress={toggleBasicTaskForm}
         onSelection={handleSelectedAction}
       />
-    </AnimatedView>
+    </ThemeView>
   );
 };
 

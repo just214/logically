@@ -5,7 +5,8 @@ import * as Calendar from "expo-calendar";
 import formatDate from "../utils/formatDate";
 import { format } from "date-fns";
 import unionBy from "lodash/unionBy";
-import { addDays } from "date-fns";
+import isEqual from "lodash/isEqual";
+import { addDays, startOfDay, isPast } from "date-fns";
 
 /*
  * AsyncStorage is used to save the user's preference for calendar events:
@@ -19,7 +20,7 @@ interface CalendarsContextObject {
   calendars: any[];
   toggleShowEvents: () => void;
   toggleSelectedCalendarId: (calendarId: string) => void;
-  selectedCalendarIds: boolean;
+  selectedCalendarIds: string[];
 }
 
 // * THE CONTEXT OBJECT
@@ -49,8 +50,7 @@ async function fetchEventsAsync(calendarIds, calendarsArray): Promise<any[]> {
   // Need startDate to start at the very beginning of the day so that some events are not overlooked
   // if it is currently later in the day.
 
-  const start_date = new Date();
-  start_date.setHours(0, 0, 0, 0);
+  const start_date = startOfDay(new Date());
   const end_date = addDays(Date.now(), 100);
 
   const eventsArray = await Calendar.getEventsAsync(
@@ -60,7 +60,8 @@ async function fetchEventsAsync(calendarIds, calendarsArray): Promise<any[]> {
   ).then(events => {
     let newEvents = [];
     let updatedEvents = [];
-    events.forEach(event => {
+    events.forEach((event, i) => {
+      if (isPast(event.startDate)) return;
       const { startDate, endDate } = event;
       const isSameDate = startDate === endDate;
 
@@ -110,20 +111,30 @@ const CalendarsProvider: React.FC<CalendarsProviderProps> = ({ children }) => {
 
   // * If the user chooses to show events, handle permissions then fetch the calendars and events.
   useEffect(() => {
+    let interval = null;
     async function handleFetchCalendarsAndEvents() {
       await handleCalendarPermissions();
       const calendarsArray = await fetchCalendarsAsync();
       setCalendars(calendarsArray);
-      const eventsArray = await fetchEventsAsync(
-        selectedCalendarIds,
-        calendarsArray
-      );
+      if (!calendarsArray.length) return;
+      const idsArray = selectedCalendarIds.length
+        ? selectedCalendarIds
+        : calendarsArray;
+      const eventsArray = await fetchEventsAsync(idsArray, calendarsArray);
       const filteredForDupes = unionBy(eventsArray, "id");
-      setEvents(filteredForDupes);
+      if (!isEqual(events, filteredForDupes)) {
+        setEvents(filteredForDupes);
+      }
     }
     if (showEvents) {
+      // On a schedule in case the calendar changes over time.
+      interval = setInterval(() => {
+        handleFetchCalendarsAndEvents();
+      }, 5000);
+      // The initial fetch
       handleFetchCalendarsAndEvents();
     }
+    return () => clearInterval(interval);
   }, [showEvents]);
 
   useEffect(() => {

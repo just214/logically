@@ -1,7 +1,7 @@
 import React, { useEffect, useState, createContext } from "react";
 import { AsyncStorage } from "react-native";
 import colors from "../utils/colors";
-const { darkGray, white, lightGray } = colors;
+const { darkBlueGray, white, lightGray } = colors;
 
 const ThemeContext = createContext(null);
 
@@ -32,8 +32,8 @@ const ThemeProvider: React.FC = ({ children }) => {
       value={{
         isDarkMode,
         setIsDarkMode,
-        themeTextColor: isDarkMode ? lightGray : darkGray,
-        themeBGColor: isDarkMode ? darkGray : white
+        themeTextColor: isDarkMode ? lightGray : darkBlueGray,
+        themeBGColor: isDarkMode ? darkBlueGray : white
       }}
     >
       {children}

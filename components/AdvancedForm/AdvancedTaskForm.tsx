@@ -4,25 +4,30 @@ import {
   StyleSheet,
   Button,
   TouchableOpacity,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Text
 } from "react-native";
-import { colors, useDimensions, formatDate } from "../../utils";
+import { colors, useDimensions } from "../../utils";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Modal from "react-native-modal";
-import { Calendar, Input, AnimatedView } from "../common";
+import { ThemeView, ThemeText, ClosableTag, RoundedButton } from "../common";
+import AdvancedTextTab from "./AdvancedTextTab";
+import AdvancedDueDateTab from "./AdvancedDueDateTab";
+import AdvancedRepeatTab from "./AdvancedRepeatTab";
 import { ThemeContext } from "../../store";
-const { darkGray, blueAlt, white } = colors;
+import { format, isSameYear } from "date-fns";
+const { blue, white } = colors;
 const { width } = useDimensions();
 
 const options = [
-  { name: "Text", icon: "text-shadow" },
-  { name: "Date", icon: "calendar" },
-  { name: "Time", icon: "alarm" },
-  { name: "Repeat", icon: "repeat" },
-  { name: "Users", icon: "account-multiple-plus-outline" }
+  { name: "Text", icon: "text-shadow", label: "Basic Info" },
+  { name: "Date", icon: "calendar", label: "Due Date" },
+  { name: "Time", icon: "alarm", label: "Alert" },
+  { name: "Repeat", icon: "repeat", label: "Repeat" },
+  { name: "Users", icon: "account-multiple-plus-outline", label: "Share" }
 ];
 
-export interface TaskInputAdvancedProps {
+export interface AdvancedTaskFormProps {
   isVisible: boolean;
   onSubmit: (newTask: any) => void;
   onCancel: () => void;
@@ -32,7 +37,7 @@ export interface TaskInputAdvancedProps {
   setTitle?: (value: string) => void;
 }
 
-const TaskInputAdvanced: React.SFC<TaskInputAdvancedProps> = ({
+const AdvancedTaskForm: React.SFC<AdvancedTaskFormProps> = ({
   isVisible,
   onSubmit,
   onCancel,
@@ -41,7 +46,7 @@ const TaskInputAdvanced: React.SFC<TaskInputAdvancedProps> = ({
   title,
   setTitle
 }) => {
-  const [selectedOption, setSelectedOption] = useState("Text");
+  const [selectedOption, setSelectedOption] = useState(options[0]);
   const [dueDate, setDueDate] = useState("");
   const [existingTitle, setExistingTitle] = useState("");
   const [notes, setNotes] = useState("");
@@ -72,6 +77,17 @@ const TaskInputAdvanced: React.SFC<TaskInputAdvancedProps> = ({
     onDelete(selectedTask.id);
   };
 
+  const getFormattedDate = () => {
+    const now = Date.now();
+    if (isSameYear(now, dueDate)) {
+      return format(dueDate, "MMM DD, YYYY");
+    } else return format(dueDate, "MMM DD, YYYY");
+  };
+
+  const handleOnRemoveDate = () => {
+    setDueDate("");
+  };
+
   return (
     <Modal
       isVisible={isVisible}
@@ -80,20 +96,20 @@ const TaskInputAdvanced: React.SFC<TaskInputAdvancedProps> = ({
       backdropColor={themeBGColor}
     >
       <View style={{ flex: 1 }}>
-        <AnimatedView style={{ flex: 1, paddingTop: 80 }}>
+        <ThemeView style={{ flex: 1, paddingTop: 80 }}>
           <View
             style={{
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "space-evenly",
-              marginBottom: 30
+              marginBottom: 10
             }}
           >
             {options.map(option => {
               return (
                 <TouchableOpacity
                   key={option.name}
-                  onPress={() => setSelectedOption(option.name)}
+                  onPress={() => setSelectedOption(option)}
                   activeOpacity={0.9}
                   hitSlop={{ top: 15, right: 15, bottom: 15, left: 15 }}
                 >
@@ -102,7 +118,7 @@ const TaskInputAdvanced: React.SFC<TaskInputAdvancedProps> = ({
                       name={option.icon}
                       size={30}
                       color={
-                        selectedOption === option.name ? blueAlt : "#DADADA"
+                        selectedOption.name === option.name ? blue : "#DADADA"
                       }
                     />
                   </View>
@@ -111,47 +127,48 @@ const TaskInputAdvanced: React.SFC<TaskInputAdvancedProps> = ({
             })}
             <Button title="Save" onPress={handleSubmit} />
           </View>
-          {selectedOption === "Date" && (
-            <View style={{ alignItems: "center", margin: -15 }}>
-              <Calendar
-                minDate={formatDate(new Date())}
-                pastScrollRange={0}
-                onDayPress={day => {
-                  setDueDate(day.dateString);
-                }}
-                markedDates={{
-                  [`${dueDate}`]: {
-                    selected: true,
-                    selectedColor: "steelblue"
-                  }
-                }}
-              />
-            </View>
+
+          <View
+            style={{
+              height: 40,
+              flexDirection: "row",
+              justifyContent: "flex-start"
+            }}
+          >
+            <Text
+              style={{
+                color: colors.blue,
+                fontWeight: "bold",
+                fontSize: 20,
+                marginHorizontal: 8
+              }}
+            >
+              {selectedOption.label}
+            </Text>
+            {!!dueDate.length && selectedOption.name === "Date" && (
+              <ClosableTag onClose={handleOnRemoveDate}>
+                {getFormattedDate()}
+              </ClosableTag>
+            )}
+          </View>
+
+          {selectedOption.name === "Date" && (
+            <AdvancedDueDateTab onDaySelection={setDueDate} dueDate={dueDate} />
           )}
-          {selectedOption === "Text" && (
-            <>
-              <Input
-                placeholder="New Task"
-                autoFocus
-                style={styles.largeInput}
-                onChangeText={text =>
-                  setTitle ? setTitle(text) : setExistingTitle(text)
-                }
-                value={title || existingTitle}
-                onSubmitEditing={handleSubmit}
-                returnKeyType="done"
-              />
-              <Input
-                placeholder="Details"
-                style={styles.input}
-                onChangeText={text => setNotes(text)}
-                value={notes}
-                onSubmitEditing={handleSubmit}
-                returnKeyType="done"
-              />
-            </>
+          {selectedOption.name === "Text" && (
+            <AdvancedTextTab
+              title={title || existingTitle}
+              onTitleChange={text =>
+                setTitle ? setTitle(text) : setExistingTitle(text)
+              }
+              notes={notes}
+              onNotesChange={setNotes}
+              onSubmit={handleSubmit}
+            />
           )}
-        </AnimatedView>
+
+          {selectedOption.name === "Repeat" && <AdvancedRepeatTab />}
+        </ThemeView>
         <KeyboardAvoidingView
           behavior="position"
           contentContainerStyle={{ marginBottom: 40 }}
@@ -163,8 +180,8 @@ const TaskInputAdvanced: React.SFC<TaskInputAdvancedProps> = ({
               justifyContent: "space-evenly"
             }}
           >
-            <Button color="tomato" title="Delete" onPress={handleOnDelete} />
-            <Button color="#666" title="Cancel" onPress={handleOnCancel} />
+            <RoundedButton onPress={handleOnDelete}>Delete</RoundedButton>
+            <RoundedButton onPress={handleOnCancel}>Cancel</RoundedButton>
           </View>
         </KeyboardAvoidingView>
       </View>
@@ -186,14 +203,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     padding: 20
   },
-  input: {
-    height: 40,
-    fontSize: 18
-  },
-  largeInput: {
-    height: 50,
-    fontSize: 22
-  },
   buttonGroup: {
     display: "flex",
     flexDirection: "row",
@@ -202,4 +211,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default TaskInputAdvanced;
+export default AdvancedTaskForm;

@@ -16,7 +16,6 @@ export default ({ light, dark }) => {
   };
 
   const darkMode = theme.isDarkMode;
-
   const [finalColor, setFinalColor] = useState(darkMode ? dark : light);
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Switch, StyleSheet, GestureResponderEvent } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { AnimatedText } from "../common";
+import { ThemeText } from "../common";
 
 export interface SettingsItemProps {
   icon: string;
@@ -24,7 +24,9 @@ const SettingsItem: React.FC<SettingsItemProps> = ({
   return (
     <View style={styles.wrapper}>
       <MaterialCommunityIcons name={icon} color={iconColor} size={25} />
-      <AnimatedText style={styles.title}>{title}</AnimatedText>
+      <ThemeText animate style={styles.title}>
+        {title}
+      </ThemeText>
       <View style={{ position: "absolute", right: 0 }}>
         <Switch value={value} onValueChange={handleSwitch} />
       </View>

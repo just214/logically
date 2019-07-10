@@ -4,7 +4,7 @@ import { View } from "react-native";
 import { colors } from "../../utils";
 import { ThemeContext } from "../../store";
 
-const { darkGray, white } = colors;
+const { darkBlueGray, white } = colors;
 
 export interface BottomSheetProps {
   ref: any;
@@ -21,7 +21,7 @@ const BottomSheet = React.forwardRef<any, BottomSheetProps>(
 
     const { isDarkMode } = useContext(ThemeContext);
 
-    const bgColor = isDarkMode ? darkGray : white;
+    const bgColor = isDarkMode ? darkBlueGray : white;
     return (
       <RBSheet
         ref={ref}
@@ -45,7 +45,7 @@ const BottomSheet = React.forwardRef<any, BottomSheetProps>(
         <View
           style={{
             width: 40,
-            backgroundColor: isDarkMode ? darkGray : white,
+            backgroundColor: isDarkMode ? darkBlueGray : white,
             borderRadius: 4,
             borderColor: colors.lightGray,
             alignSelf: "center",
@@ -58,7 +58,7 @@ const BottomSheet = React.forwardRef<any, BottomSheetProps>(
           style={{
             flex: 1,
             // Dont set padding here or it will mess up the calendar.
-            backgroundColor: isDarkMode ? darkGray : white
+            backgroundColor: isDarkMode ? darkBlueGray : white
           }}
         >
           {children}

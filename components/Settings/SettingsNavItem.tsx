@@ -6,7 +6,7 @@ import {
   GestureResponderEvent
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { AnimatedText } from "../common";
+import { ThemeText } from "../common";
 import { colors } from "../../utils";
 const { lightGray } = colors;
 import { VibrationContext } from "../../store";
@@ -33,7 +33,9 @@ const SettingsItem: React.FC<SettingsItemProps> = ({
   return (
     <TouchableOpacity onPress={handleOnPress} style={styles.wrapper}>
       <MaterialCommunityIcons name={icon} color={iconColor} size={25} />
-      <AnimatedText style={styles.title}>{title}</AnimatedText>
+      <ThemeText animate style={styles.title}>
+        {title}
+      </ThemeText>
       <View style={{ position: "absolute", right: 0 }}>
         <MaterialCommunityIcons
           name="chevron-right"

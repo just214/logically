@@ -1,21 +1,19 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import {
   KeyboardAvoidingView,
   View,
-  TextInput,
   StyleSheet,
   Button,
   TouchableOpacity
 } from "react-native";
 import { colors, useDimensions } from "../../utils";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Overlay, AnimatedView, Input } from "../common";
+import { Overlay, ThemeView, Input } from "../common";
 import { ThemeContext } from "../../store";
 const { white } = colors;
-
 const { width } = useDimensions();
 
-export interface TaskInputSimpleProps {
+export interface BasicTaskFormProps {
   onSubmit: (arg: any) => void;
   onCancel: () => void;
   onPressAdvancedSettings: () => void;
@@ -23,7 +21,7 @@ export interface TaskInputSimpleProps {
   setTitle: (value: string) => void;
 }
 
-const TaskInputSimple: React.SFC<TaskInputSimpleProps> = ({
+const BasicTaskForm: React.SFC<BasicTaskFormProps> = ({
   onCancel,
   onSubmit,
   onPressAdvancedSettings,
@@ -69,12 +67,12 @@ const TaskInputSimple: React.SFC<TaskInputSimpleProps> = ({
     <>
       <Overlay onPress={onCancel} />
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-        <AnimatedView
+        <ThemeView
           style={styles.box}
           // style={[styles.box, { opacity: showModal ? fadeOut : fadeIn }]}
         >
           {MemoBox}
-        </AnimatedView>
+        </ThemeView>
       </KeyboardAvoidingView>
     </>
   );
@@ -107,4 +105,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default TaskInputSimple;
+export default BasicTaskForm;

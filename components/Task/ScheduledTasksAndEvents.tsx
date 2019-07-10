@@ -4,10 +4,10 @@ import groupBy from "lodash/groupBy";
 import TaskItem from "./TaskItem";
 import EventItem from "./EventItem";
 import { formatPrettyDate, colors } from "../../utils";
-import { format } from "date-fns";
-import { ThemeContext } from "../../store";
+import { format, isToday } from "date-fns";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-const { blueAlt } = colors;
+const { blue } = colors;
 
 function groupByDate(tasksAndEvents) {
   const inProgressOnly = tasksAndEvents
@@ -35,7 +35,6 @@ const ScheduledTasksAndEvents: React.SFC<ScheduledTasksAndEventsProps> = ({
   handleToggleTaskCompletion,
   onTaskSelect
 }) => {
-  const { isDarkMode } = useContext(ThemeContext);
   const groupedTasks = groupByDate(tasksAndEvents);
   const renderList = useMemo(
     () => (
@@ -60,7 +59,7 @@ const ScheduledTasksAndEvents: React.SFC<ScheduledTasksAndEventsProps> = ({
                 >
                   <Text
                     style={{
-                      color: blueAlt,
+                      color: blue,
                       fontWeight: "bold",
                       fontSize: 22
                     }}
@@ -81,6 +80,13 @@ const ScheduledTasksAndEvents: React.SFC<ScheduledTasksAndEventsProps> = ({
                     {format(key, "MMMM DD, YYYY")}
                   </Text>
                 </View>
+                {isToday(key) && (
+                  <MaterialCommunityIcons
+                    name="star-box-outline"
+                    size={30}
+                    color={blue}
+                  />
+                )}
               </View>
 
               <FlatList
@@ -116,7 +122,7 @@ const ScheduledTasksAndEvents: React.SFC<ScheduledTasksAndEventsProps> = ({
           fontSize: 18,
           paddingLeft: 12,
           paddingVertical: 20,
-          color: blueAlt
+          color: blue
         }}
       >
         Today is {formatPrettyDate(new Date())}

@@ -3,7 +3,7 @@ import { CalendarList } from "react-native-calendars";
 import { colors, useDimensions } from "../../utils";
 import { ThemeContext } from "../../store";
 
-const { darkGray, white, blueAlt, lightGray } = colors;
+const { darkBlueGray, white, blue, lightGray } = colors;
 
 export interface CalendarProps {
   horizontal?: boolean;
@@ -36,12 +36,13 @@ const Calendar: React.FC<CalendarProps> = ({
       pastScrollRange={pastScrollRange}
       calendarWidth={width}
       theme={{
-        monthTextColor: isDarkMode ? lightGray : darkGray,
-        dayTextColor: isDarkMode ? lightGray : darkGray,
-        backgroundColor: isDarkMode ? darkGray : white,
-        calendarBackground: isDarkMode ? darkGray : white,
-        selectedDayBackgroundColor: blueAlt,
-        todayTextColor: blueAlt
+        monthTextColor: isDarkMode ? lightGray : darkBlueGray,
+        dayTextColor: isDarkMode ? lightGray : darkBlueGray,
+        backgroundColor: isDarkMode ? darkBlueGray : white,
+        calendarBackground: isDarkMode ? darkBlueGray : white,
+        selectedDayBackgroundColor: blue,
+        todayTextColor: blue,
+        textDisabledColor: isDarkMode ? "#333" : "#DADADA"
       }}
       onDayPress={onDayPress}
       markedDates={markedDates}

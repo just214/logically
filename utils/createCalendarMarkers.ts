@@ -1,6 +1,6 @@
 import groupBy from 'lodash/groupBy'
 import colors from './colors'
-const { lightGray, blueAlt} = colors;
+const { lightGray, blue} = colors;
 
 export default (tasksAndEvents, filter) => {
   const inProgressOnly = tasksAndEvents.filter(
@@ -16,7 +16,7 @@ export default (tasksAndEvents, filter) => {
     // Set the selected day if applicable
     const selected = filter.value === key;
 
-    markers[key] = { dots: [], selected, selectedColor: blueAlt };
+    markers[key] = { dots: [], selected, selectedColor: blue };
 
     const dotsArray = markers[key].dots;
     taskGroup.forEach(task => {
@@ -31,7 +31,7 @@ export default (tasksAndEvents, filter) => {
   if (filter.value && !markers[filter.value]) {
     markers[filter.value] = {
       selected: true,
-      selectedColor: blueAlt
+      selectedColor: blue
     }
   }
 

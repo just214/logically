@@ -4,7 +4,7 @@ import { AuthButton, AuthInput, ReturnToSignInButton } from "../components";
 import { OverlaySpinner } from "../../components/common";
 import { sendPasswordResetEmail } from "../api";
 import { colors } from "../../utils";
-const { darkGray } = colors;
+const { darkBlueGray } = colors;
 
 const SignInScreen = props => {
   const [isPending, setIsPending] = useState(false);
@@ -64,7 +64,7 @@ const SignInScreen = props => {
           </Text>
 
           {emailSent && (
-            <Text style={{ fontSize: 16, margin: 20, color: darkGray }}>
+            <Text style={{ fontSize: 16, margin: 20, color: darkBlueGray }}>
               An email has been sent to {email}.
             </Text>
           )}

@@ -8,7 +8,7 @@ import {
 } from "react-native";
 
 import { colors } from "../../utils";
-const { darkGray, white } = colors;
+const { darkBlueGray, white } = colors;
 
 export interface GoogleButtonProps {
   onPress: (e: GestureResponderEvent) => void;
@@ -39,12 +39,12 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 6,
     borderWidth: 0.5,
-    borderColor: darkGray,
+    borderColor: darkBlueGray,
     backgroundColor: white,
     width: 300
   },
   buttonText: {
-    color: darkGray,
+    color: darkBlueGray,
     fontSize: 18,
     fontWeight: "bold",
     marginLeft: 10

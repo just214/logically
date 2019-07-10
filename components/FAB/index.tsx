@@ -12,7 +12,7 @@ import DisplayText from "./DisplayText";
 import { VibrationContext } from "../../store";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { colors } from "../../utils";
-const { darkGray, blue, white } = colors;
+const { darkBlueGray, blue, white } = colors;
 
 interface FABProps {
   onSelection: (s: string) => void;
@@ -189,7 +189,7 @@ const FAB: React.FC<FABProps> = ({ onSelection, onPress }) => {
       backgroundColor: blue,
       borderRadius: 30,
       elevation: 8,
-      shadowColor: darkGray,
+      shadowColor: darkBlueGray,
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.5,
       shadowRadius: 2
